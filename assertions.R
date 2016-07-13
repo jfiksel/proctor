@@ -5,3 +5,10 @@ assert_equals = function(actual, expected) {
     }
 }
 
+assert_true = function(expr) {
+    if (!expr) {
+        message = paste('Expected', expr, 'to be true')
+        stop(message)
+    }
+}
+
