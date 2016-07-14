@@ -5,20 +5,23 @@ unit testing in R
 Start R with `sudo R`
 ```.R
 # If you don't have devtools installed yet:
-install.packages('devtools')
+> install.packages('devtools')
 
 # Then:
-library('devtools')
-devtools::install_github('n-s-f/proctor')
+> library('devtools')
+> devtools::install_github('n-s-f/proctor')
 ```
 
 ### Running Tests
+
+Proctor tests are run from the command line.
+
 ```.bash
 # Run all tests in current directory including subdirectories
-proctor
+$ proctor
 
 # Run all tests in some_directory including subdirectories
-proctor some_directory
+$ proctor some_directory
 ```
 
 Proctor finds any files that match `test\w*.R$`, and then runs any functions in those files that match `^test|test$`.
