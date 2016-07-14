@@ -45,11 +45,9 @@ get_tests_from_env = function(env) {
 }
 
 get_test_files = function(path) {
-    files = list.files(path, recursive=TRUE)
     pattern = 'test\\w*.R$'
-    test_files = files[grep(pattern, files)]
-    test_files = lapply(test_files, function(f) paste(path, f, sep=.Platform$file.sep))
-    return(test_files)
+    files = list.files(path, pattern=pattern, recursive=TRUE, full.names=TRUE)
+    return(files)
 }
 
 get_path = function() {
