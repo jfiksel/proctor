@@ -59,11 +59,10 @@ get_path = function() {
     return('.')
 }
 
-main = function() {
+test = function() {
     path = get_path()
     files = get_test_files(path)
     tests = get_all_tests(files)
     run_tests(tests)
 }
 
-main()
