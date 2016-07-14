@@ -1,2 +1,1 @@
-chmod 755 proctor
 cp -f proctor /usr/local/bin/
