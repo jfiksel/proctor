@@ -1,0 +1,4 @@
+#!/usr/bin/Rscript
+
+library(proctor)
+proctor::test()
