@@ -45,7 +45,7 @@ get_tests_from_env = function(env) {
 }
 
 get_test_files = function(path) {
-    files = list.files(path)
+    files = list.files(path, recursive=TRUE)
     pattern = 'test\\w*.R$'
     test_files = files[grep(pattern, files)]
     return(test_files)
