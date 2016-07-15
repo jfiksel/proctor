@@ -1,28 +1,37 @@
-run_tests = function(tests) {
-    failures = c()
-    for (test in tests) {
-        tryCatch({
-            test()
-            print('.')
-        }, 'condition' = function(error) {
-            failures <<- append(failures, c(get('message', error)))
-            print('F')
-        })
-    }
+run_tests = function(test_envs) {
+    failures = execute_tests(test_envs)
+    print_failures(failures)
+}
 
-    print('Failures:')
-    for (failure in failures) {
-        print(failure)
+execute_tests = function(test_envs) {
+    failures = new.env()
+    for (env in ls(test_envs, all.names=TRUE)) {
+        for (test in ls(test_envs[[env]])) {
+            tryCatch({
+                test_envs[[env]][[test]]()
+                cat('.')
+            }, 'condition' = function(error) {
+                failures[[paste(env, test, sep='::')]] = c(get('message', error))
+                cat('F')
+            })
+        }
+    }
+    return(failures)
+}
+
+print_failures = function(failures) {
+    cat('\nFailures:\n')
+    for (failure in ls(failures, all.names=TRUE)) {
+        cat(paste(failure, failures[[failure]], '\n'))
     }
 }
 
 get_all_tests = function(files) {
-    all_tests = c()
+    test_envs = new.env()
     for (file in files) {
-        tests = get_tests_from_file(file)
-        all_tests = append(all_tests, tests)
+        test_envs[[file]] = get_tests_from_file(file)
     }
-    return(all_tests)
+    return(test_envs)
 }
 
 get_tests_from_file = function(file) {
@@ -40,8 +49,8 @@ get_tests_from_env = function(env) {
     is_function = function(name) mode(get(name, env)) == 'function'
     function_names = Filter(is_function, test_names)
 
-    test_functions = mget(function_names, env)
-    return(test_functions)
+    remove(list=setdiff(all_names, function_names), pos=env)
+    return(env)
 }
 
 get_test_files = function(path) {
