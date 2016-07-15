@@ -1,9 +1,9 @@
 run_tests = function(test_envs) {
-    failures = execute_tests(test_envs)
+    failures = print_test_results(test_envs)
     print_failures(failures)
 }
 
-execute_tests = function(test_envs) {
+print_test_results= function(test_envs) {
     failures = new.env()
     for (env in ls(test_envs, all.names=TRUE)) {
         for (test in ls(test_envs[[env]])) {
