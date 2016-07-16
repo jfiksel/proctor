@@ -4,14 +4,21 @@ run_tests = function(test_envs) {
 }
 
 print_test_results= function(test_envs) {
-    failures = new.env()
-    for (env in ls(test_envs, all.names=TRUE)) {
-        for (test in ls(test_envs[[env]])) {
+    failures = list()
+    for (env_name in names(test_envs)) {
+        env = get(env_name, test_envs)
+        test_names = get_tests_names_from_env(env)
+
+        for (test_name in test_names) {
+            test = get(test_name, env)
+
             tryCatch({
-                test_envs[[env]][[test]]()
+                test()
                 cat('.')
             }, 'condition' = function(error) {
-                failures[[paste(env, test, sep='::')]] = c(get('message', error))
+                qualified_test_name = paste(env_name, test_name, sep='::')
+                error_message = c(get('message', error))
+                failures[[qualified_test_name]] <<- error_message
                 cat('F')
             })
         }
@@ -21,13 +28,13 @@ print_test_results= function(test_envs) {
 
 print_failures = function(failures) {
     cat('\nFailures:\n')
-    for (failure in ls(failures, all.names=TRUE)) {
+    for (failure in names(failures)) {
         cat(paste(failure, failures[[failure]], '\n'))
     }
 }
 
-get_all_tests = function(files) {
-    test_envs = new.env()
+load_files = function(files) {
+    test_envs = list()
     for (file in files) {
         test_envs[[file]] = get_tests_from_file(file)
     }
@@ -37,20 +44,13 @@ get_all_tests = function(files) {
 get_tests_from_file = function(file) {
     env = new.env()
     source(file, env)
-    return(get_tests_from_env(env))
+    return(env)
 }
 
-get_tests_from_env = function(env) {
-    all_names = ls(env)
-
-    pattern = '^test|test$'
-    test_names = all_names[grep(pattern, all_names)]
-
+get_tests_names_from_env = function(env) {
+    test_names = ls(env, pattern='^test|test$')
     is_function = function(name) mode(get(name, env)) == 'function'
-    function_names = Filter(is_function, test_names)
-
-    remove(list=setdiff(all_names, function_names), pos=env)
-    return(env)
+    return(Filter(is_function, test_names))
 }
 
 get_test_files = function(path) {
@@ -70,7 +70,7 @@ get_path = function() {
 test = function() {
     path = get_path()
     files = get_test_files(path)
-    tests = get_all_tests(files)
-    run_tests(tests)
+    test_envs = load_files(files)
+    run_tests(test_envs)
 }
 
