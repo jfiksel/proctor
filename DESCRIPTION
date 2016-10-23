@@ -1,2 +1,12 @@
 Package: proctor
 Version: 0.1.0
+Title: Lightweight R test runner
+Description:
+    This package will run tests.
+Authors@R: c(person("Noam", "Finkelstein", role = c("aut", "cre"),
+                    email = "noam.finkelstein@jhu.edu"))
+Imports:
+    testthat,
+License: MIT + file LICENSE
+Collate:
+RoxygenNote: 5.0.1
