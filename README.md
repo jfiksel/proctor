@@ -40,6 +40,5 @@ test_addition = function() {
 ### TODO
 - More informative and better formatted output
 - Fixtures (setup, teardown, etc)
-- Additional assertions
-- Mocking
+- Make use of testthat assertions
 - Statistical tests
