@@ -1,5 +1,11 @@
 # proctor
-unit testing in R
+Lightweight & flexible test runner for R.
+
+### Why proctor?
+
+The language standard testing framework for R is [testthat](https://github.com/hadley/testthat). Testthat is a great framework for package developers, but it is restrictive in other contexts. Most relevantly, it requires all tests to be part of a package and is tightly coupled to the [devtools](https://github.com/devtools/hadley) package.
+
+Proctor is designed data munging scripts or statistical analyses that there is no good reason to turn into packages but you still want to test. Proctor allows you to write tests immediately for any R script, with zero boilerplate.
 
 ### Installation
 Start R with `sudo R`
