@@ -69,7 +69,7 @@ get_path = function() {
 
 #' Runs all tests in given directory.
 #' @export
-test = function() {
+proctor_test = function() {
     path = get_path()
     files = get_test_files(path)
     test_envs = load_files(files)
