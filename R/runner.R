@@ -67,6 +67,8 @@ get_path = function() {
     return('.')
 }
 
+#' Runs all tests in given directory.
+#' @export
 test = function() {
     path = get_path()
     files = get_test_files(path)

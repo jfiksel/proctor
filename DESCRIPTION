@@ -9,4 +9,5 @@ Imports:
     testthat,
 License: MIT + file LICENSE
 Collate:
+    runner.R
 RoxygenNote: 5.0.1
